@@ -43,7 +43,7 @@ export default function TasksLayout({ children }) {
     
     router.replace('/checklist', {shallow: true});
     setChecklist(getChecklistStoraged());
-  }, [router);
+  }, [router]);
 
   useEffect(() => {
       const interval = setInterval(() => {
