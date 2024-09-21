@@ -1,0 +1,73 @@
+@use "../../app/globals";
+
+.checklist {
+    @include globals.border(16px);
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-height: 40vh;
+    padding: 32px;
+    box-shadow: 0px 1px 2px 0px #1018280D;
+
+    .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        span{
+            text-align: center;
+            color: globals.$title-color;
+            font-weight: 400;
+            font-size: small;
+            font-family: globals.$default-font;
+        }
+    }
+
+    .items{
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+
+        .item {
+            @include globals.border(8px, dashed);
+            display: flex;
+            flex: row;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px;
+        
+            div{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            &:hover {
+                background-color: globals.$hover-color;
+                border-style: hidden;
+                cursor: pointer;
+            }
+
+            &.checked{
+                .text{
+                    span{
+                        text-decoration: line-through;
+                        color: globals.$title-color;
+                    }
+                }
+            }
+
+            .text{
+                flex-grow: 5;
+                justify-content: start;
+                span{
+                    font-family: globals.$default-font;
+                    font-weight: 400;
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}

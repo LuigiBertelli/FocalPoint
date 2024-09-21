@@ -1,0 +1,49 @@
+@use "../globals.scss";
+
+.deletetask{
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    font-family: globals.$default-font;
+    .title{
+        font-size: large;
+        font-weight: 500;
+    }
+
+    .text{
+        font-size: small;
+        font-weight: 400;
+        color: globals.$title-color;
+    }
+
+    .buttons{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+        flex-wrap: wrap;
+
+        :first-child{
+            @include globals.secondary-button();
+            flex-grow: 1;
+        }
+
+        :last-child{
+            @include globals.delete-button();
+            flex-grow: 1
+        }
+    }
+}
+
+@media screen and (max-width: 480px)
+{
+    .buttons{
+        flex-direction: column;
+        button{
+            width: 100%;
+        }
+    }
+}

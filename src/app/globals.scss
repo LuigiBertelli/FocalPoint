@@ -1,0 +1,66 @@
+//Variables
+  //fonts
+  $default-font: var(--font-inter-tight);
+  //sizes
+  
+
+  //colors
+  $border-color: #D7DDE9;
+  $hover-color: #F7F9FD;
+  $title-color: rgba(0, 0, 0, 0.54);
+  $white-color: #FFFFFF;
+  $black-color: #000000;
+
+//mixins
+@mixin border($radius, $style: solid)
+{
+  border: 1px;
+  border-radius: $radius;
+  border-color: $border-color;
+  border-style: $style;
+}
+
+@mixin button($bg, $color: $white-color)
+{
+  @include border(8px, none);
+  padding: 10px 20px;
+  background: $bg;
+  font-size: medium;
+  font-family: $default-font;
+  font-weight: 400;
+  color: $color;
+  cursor: pointer;
+
+  @media screen and (max-width: 480px)
+  {
+    padding: 20px 20px;
+    font-size: large;
+  }
+
+  @media screen and (min-width: 480px) and (max-width: 760px)
+  {
+    padding: 10px 20px;
+    font-size: medium;
+  }
+
+  @media screen and (min-width: 761px) and (max-width: 980px)
+  {
+    padding: 10px 20px;
+    font-size: medium;
+  }
+}
+
+@mixin primary-button()
+{
+  @include button(linear-gradient(90deg, #0796D3, #53C0F0));
+}
+
+@mixin secondary-button()
+{
+  @include button(#E7EEFB, $black-color);
+}
+
+@mixin delete-button()
+{
+  @include button(linear-gradient(90deg, #D30707,#F05353));
+}

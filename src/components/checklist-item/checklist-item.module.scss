@@ -1,0 +1,48 @@
+@use "../../app/globals";
+
+.item {
+    @include globals.border(8px, dashed);
+    display: flex;
+    flex: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+
+    div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &:hover {
+        background-color: globals.$hover-color;
+        border-style: hidden;
+        cursor: pointer;
+    }
+
+    &.checked{
+        .text{
+            span{
+                text-decoration: line-through;
+                color: globals.$title-color;
+            }
+        }
+    }
+
+    .text{
+        flex-grow: 5;
+        justify-content: start;
+        span{
+            font-family: globals.$default-font;
+            font-weight: 400;
+            font-size: small;
+        }
+    }
+
+    .trash{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

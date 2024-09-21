@@ -1,0 +1,66 @@
+@use "../globals.scss";
+
+.container{
+    z-index: 0;
+    display: flex;
+    width: 31.25vw;
+    flex-direction: column;
+    gap: 18px;
+    height: auto;
+    margin: 2% auto;
+}
+
+@media screen and (max-width: 480px)
+{
+    .container{
+        width: 80vw;
+    }
+}
+
+@media screen and (min-width: 480px) and (max-width: 760px)
+{
+    .container{
+        width: 70vw;
+    }
+}
+
+@media screen and (min-width: 761px) and (max-width: 980px)
+{
+    .container{
+        width: 40vw;
+    }
+}
+
+.navcontainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 13px;
+    border-bottom: 1px solid globals.$border-color;
+    margin: 0 2%;
+}
+
+.welcome{
+    span{
+        font-size: x-large;
+        font-weight: 400;
+        font-family: globals.$default-font
+    }
+}
+
+.date{
+    span{
+        font-size: small;
+        font-weight: 400;
+        font-family: globals.$default-font;
+        color: globals.$title-color;
+    }
+}
+
+.btn2{
+    @include globals.primary-button();
+    text-decoration: none;
+    text-align: center;
+}
