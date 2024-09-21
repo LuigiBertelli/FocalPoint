@@ -33,17 +33,17 @@ export default function TasksLayout({ children }) {
 
 
   const router = useRouter();
-  const searchParams = useSearchParams();
   let [todayDate, setTodayDate] = useState(new Date());
   let [checklist, setChecklist] = useState(() => getChecklistStoraged());
 
   useEffect(() => {
+    const searchParams = useSearchParams();
     if(searchParams.get('refresh') === null)
       return;
     
     router.replace('/checklist', {shallow: true});
     setChecklist(getChecklistStoraged());
-  }, [searchParams]);
+  }, [router);
 
   useEffect(() => {
       const interval = setInterval(() => {
