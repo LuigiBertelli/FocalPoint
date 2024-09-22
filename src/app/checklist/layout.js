@@ -31,13 +31,17 @@ export default function TasksLayout({ children }) {
     return `${weekDay}, ${day} de ${month} de ${year}`;
   };
 
-
+  const getRouteParams = () => {
+    const searchParams = useSearchParams();
+    return searchParams;
+  }
+  
   const router = useRouter();
   let [todayDate, setTodayDate] = useState(new Date());
   let [checklist, setChecklist] = useState(() => getChecklistStoraged());
 
   useEffect(() => {
-    const searchParams = useSearchParams();
+    let searchParams = getRouteParams();
     if(searchParams.get('refresh') === null)
       return;
     
