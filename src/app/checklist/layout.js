@@ -1,6 +1,6 @@
 'use client'
 import Checklist from "@/components/checklist/checklist";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/public/logo.svg"
@@ -13,41 +13,51 @@ const WEEK_DAYS = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 
 const MONTHS = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho',
   'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
 
-export default function TasksLayout({ children }) {
-  const getChecklistStoraged = () => {
-    let aux = [];
-    if(localStorage !== undefined)
-      aux = JSON.parse(localStorage.getItem('checklist') || '[]');
-    
-    return aux;
-  };
+const getChecklistStoraged = () => {
+  let aux = [];
+  if(localStorage !== undefined)
+    aux = JSON.parse(localStorage.getItem('checklist') || '[]');
   
-  const formatDate = (date) => {
-    let weekDay = WEEK_DAYS[date.getDay()],
-        day  = date.getDate().toString().padStart(2, '0'),
-        month  = MONTHS[date.getMonth()],
-        year  = date.getFullYear();
+  return aux;
+};
 
-    return `${weekDay}, ${day} de ${month} de ${year}`;
-  };
+const formatDate = (date) => {
+  let weekDay = WEEK_DAYS[date.getDay()],
+      day  = date.getDate().toString().padStart(2, '0'),
+      month  = MONTHS[date.getMonth()],
+      year  = date.getFullYear();
 
-  const getRouteParams = () => {
-    const searchParams = useSearchParams();
-    return searchParams;
-  }
-  
+  return `${weekDay}, ${day} de ${month} de ${year}`;
+};
+
+function ChecklistContainer() {
   const router = useRouter();
-  let [todayDate, setTodayDate] = useState(new Date());
+  const searchParams = useSearchParams();
+  
   let [checklist, setChecklist] = useState(() => getChecklistStoraged());
 
   useEffect(() => {
-    let searchParams = getRouteParams();
     if(searchParams.get('refresh') === null)
       return;
     
     router.replace('/checklist', {shallow: true});
     setChecklist(getChecklistStoraged());
-  }, [router]);
+  }, [searchParams, router]);
+
+  useEffect(() => {
+    localStorage.setItem('checklist', JSON.stringify(checklist));
+  }, [checklist]);
+
+  return (<>
+    <div className={styles.container}>
+            <Checklist checklist={checklist} setChecklist={setChecklist}/>
+            <Link className={styles.btn2} href={'/checklist/newtask'}>Adicionar nova tarefa</Link>
+      </div>
+  </>);
+}
+
+export default function TasksLayout({ children }) {  
+  let [todayDate, setTodayDate] = useState(new Date());
 
   useEffect(() => {
       const interval = setInterval(() => {
@@ -58,11 +68,7 @@ export default function TasksLayout({ children }) {
       }
     }, MINUTE_MS);
     return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('checklist', JSON.stringify(checklist));
-  }, [checklist]);
+  }, [todayDate]);
 
   return (
     <section>
@@ -82,10 +88,9 @@ export default function TasksLayout({ children }) {
           </div>
         </div>
       </nav>
-      <div className={styles.container}>
-            <Checklist checklist={checklist} setChecklist={setChecklist}/>
-            <Link className={styles.btn2} href={'/checklist/newtask'}>Adicionar nova tarefa</Link>
-      </div>
+      <Suspense>
+        <ChecklistContainer/>
+      </Suspense>
       {children}
     </section>
   );
